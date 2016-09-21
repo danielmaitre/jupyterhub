@@ -25,7 +25,7 @@ userlist:
 	@echo "    wash"
 	@exit 1
 
-check-files: secrets/jupyterhub.crt secrets/jupyterhub.key userlist
+check-files: secrets/jupyterhub.crt secrets/jupyterhub.key 
 	# fail in an informative way if files don't exist
 
 pull:

@@ -65,13 +65,17 @@ c.JupyterHub.cookie_secret_file = os.path.join(data_dir,
 c.Authenticator.whitelist = whitelist = set()
 c.Authenticator.admin_users = admin = set()
 c.JupyterHub.admin_access = True
-pwd = os.path.dirname(__file__)
-with open(os.path.join(pwd, 'userlist')) as f:
-    for line in f:
-        if not line:
-            continue
-        parts = line.split()
-        name = parts[0]
-        whitelist.add(name)
-        if len(parts) > 1 and parts[1] == 'admin':
-            admin.add(name)
+#pwd = os.path.dirname(__file__)
+#with open(os.path.join(pwd, 'userlist')) as f:
+#    for line in f:
+#        if not line:
+#            continue
+#        parts = line.split()
+#        name = parts[0]
+#        whitelist.add(name)
+#        if len(parts) > 1 and parts[1] == 'admin':
+#            admin.add(name)
+#
+c.JupyterHub.authenticator_class = 'ldapauthenticator.LDAPAuthenticator'
+c.LDAPAuthenticator.server_address = '129.234.246.2'
+c.LDAPAuthenticator.use_ssl = False
