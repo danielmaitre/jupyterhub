@@ -52,8 +52,8 @@ c.JupyterHub.ssl_key = os.environ['SSL_KEY']
 c.JupyterHub.ssl_cert = os.environ['SSL_CERT']
 
 # Authenticate users with GitHub OAuth
-c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
-c.GitHubOAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
+#c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
+#c.GitHubOAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
 
 # Persist hub data on volume mounted inside container
 data_dir = os.environ.get('DATA_VOLUME_CONTAINER', '/data')
@@ -63,7 +63,7 @@ c.JupyterHub.cookie_secret_file = os.path.join(data_dir,
 
 # Whitlelist users and admins
 c.Authenticator.whitelist = whitelist = set()
-c.Authenticator.admin_users = admin = set()
+c.Authenticator.admin_users = admin = set(['fqnq45'])
 c.JupyterHub.admin_access = True
 #pwd = os.path.dirname(__file__)
 #with open(os.path.join(pwd, 'userlist')) as f:
