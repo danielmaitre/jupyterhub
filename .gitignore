@@ -1,3 +1,7 @@
 secrets/
 userlist
 .DS_Store
+*~
+npp-notebook/npp-git/
+my-jupyterhub.pp
+my-jupyterhub.te
