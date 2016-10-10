@@ -35,11 +35,16 @@ services:
     container_name: jh_nginx_proxy
     volumes:
       - "./proxy/nginx.conf:/etc/nginx/nginx.conf:z"
-      - "./proxy/mykey.key:/etc/nginx/mykey.key:z"
-      - "./proxy/mycert.pem:/etc/nginx/mycert.pem:z"
+      - "/etc/letsencrypt/live/dmaitre.phyip3.dur.ac.uk/privkey.pem:/etc/nginx/mykey.key:z"
+      - "/etc/letsencrypt/live/dmaitre.phyip3.dur.ac.uk/fullchain.pem:/etc/nginx/mycert.pem:z"
       - "./notes:/usr/share/nginx/html/notes:z"
+      - "/tmp/letsencrypt-auto:/tmp/letsencrypt-auto:z"
+      - "/etc/ssl/certs/dhparam.pem:/etc/nginx/dhparam.pem:z"
     ports:
       - "443:443"
+      - "80:80"
+
+
 
 
 
