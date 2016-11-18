@@ -70,8 +70,8 @@ class LDAPAuthenticator(Authenticator):
             self.log.warn('Empty password')
             return None
 
-        userdn_ug = "cn={0},ou={1},ou=UG,ou=people,DC=mds,DC=ad,DC=dur,DC=ac,DC=uk".format(username,username[0:3])
-        userdn_staff = "cn={0},ou={1},ou=Staff,ou=people,DC=mds,DC=ad,DC=dur,DC=ac,DC=uk".format(username,username[0:3])
+        userdn_ug = "cn={0},ou={1},ou=UG,ou=people,DC=mds,DC=ad,DC=dur,DC=ac,DC=uk".format(username,username[-1])
+        userdn_staff = "cn={0},ou={1},ou=Staff,ou=people,DC=mds,DC=ad,DC=dur,DC=ac,DC=uk".format(username,username[-1])
 
         server = ldap3.Server(
             self.server_address,
@@ -85,6 +85,7 @@ class LDAPAuthenticator(Authenticator):
         else:
             conn = ldap3.Connection(server, user=userdn_staff, password=password)
             if conn.bind():
+                self.log.warn("ldap line: "+userdn_staff)
                 return username
             else:
                 self.log.warn('Invalid password')
