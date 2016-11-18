@@ -10,6 +10,8 @@ RUN apk update && apk upgrade && apk add --no-cache bash git openssh
 
 USER root
 COPY docker-entrypoint.sh /srv/docker-entrypoint.sh
+RUN adduser jovyan
+
 USER jovyan
 ENTRYPOINT ["sh /srv/docker-entrypoint.sh "]
 
