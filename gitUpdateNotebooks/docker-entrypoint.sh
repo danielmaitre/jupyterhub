@@ -9,7 +9,6 @@ for n in *.ipynb; do
 	echo $n already there
     else
 	cp $n ../$n
-	chown $NB_USER ../$n
     fi
 done
 

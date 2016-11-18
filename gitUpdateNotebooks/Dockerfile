@@ -10,10 +10,12 @@ RUN apk update && apk upgrade && apk add --no-cache bash git openssh
 
 USER root
 COPY docker-entrypoint.sh /srv/docker-entrypoint.sh
-RUN adduser jovyan
+RUN chmod a+r /srv/docker-entrypoint.sh
+RUN adduser -s /bin/bash -D -G users -u 1000 jovyan 
 
 USER jovyan
-ENTRYPOINT ["sh /srv/docker-entrypoint.sh "]
+
+ENTRYPOINT ["sh","/srv/docker-entrypoint.sh"]
 
 
 
