@@ -55,6 +55,13 @@ class LDAPAuthenticator(Authenticator):
         """
     )
 
+    def find(user):
+        conn=ldap3.Connection(server,user="CN=OU=People,DC=mds,DC=ad,DC=dur,DC=ac,DC=uk",auto_bind=True)
+        res=conn.search("OU=People,DC=mds,DC=ad,DC=dur,DC=ac,DC=uk","(cn={0})".format(user))
+        ent=conn.entries.pop()
+        dn=ent.entry_get_dn()
+        return dn
+
     @gen.coroutine
     def authenticate(self, handler, data):
         username = data['username']
@@ -78,15 +85,12 @@ class LDAPAuthenticator(Authenticator):
             port=self.server_port,
             use_ssl=self.use_ssl
         )
-        conn = ldap3.Connection(server, user=userdn_ug, password=password)
+        userdn=find(username)
+        print ("userdn for login: {0}".format(userdn))
+        conn = ldap3.Connection(server, user=userdn, password=password)
 
         if conn.bind():
             return username
         else:
-            conn = ldap3.Connection(server, user=userdn_staff, password=password)
-            if conn.bind():
-                self.log.warn("ldap line: "+userdn_staff)
-                return username
-            else:
-                self.log.warn('Invalid password')
-                return None
+            self.log.warn('Invalid password')
+            return None
