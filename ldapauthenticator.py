@@ -6,6 +6,8 @@ from tornado import gen
 from traitlets import Unicode, Int, Bool, Union, List
 
 
+
+
 class LDAPAuthenticator(Authenticator):
     server_address = Unicode(
         config=True,
@@ -55,8 +57,9 @@ class LDAPAuthenticator(Authenticator):
         """
     )
 
-    def find(user):
-        conn=ldap3.Connection(server,user="CN=OU=People,DC=mds,DC=ad,DC=dur,DC=ac,DC=uk",auto_bind=True)
+    def find(self,user):
+        server = ldap3.Server("mds.ad.dur.ac.uk", use_ssl=False)
+        conn=ldap3.Connection(server,auto_bind=True)
         res=conn.search("OU=People,DC=mds,DC=ad,DC=dur,DC=ac,DC=uk","(cn={0})".format(user))
         ent=conn.entries.pop()
         dn=ent.entry_get_dn()
@@ -85,7 +88,7 @@ class LDAPAuthenticator(Authenticator):
             port=self.server_port,
             use_ssl=self.use_ssl
         )
-        userdn=find(username)
+        userdn=self.find(username)
         print ("userdn for login: {0}".format(userdn))
         conn = ldap3.Connection(server, user=userdn, password=password)
 
